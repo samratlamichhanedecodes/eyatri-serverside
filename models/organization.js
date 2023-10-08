@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 
 const organizationSchema = new Schema({
     org_name: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true
     },
+    vehicles: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Vehicle'
+    }],
     location: {
         type: {
             type: String,
@@ -17,8 +21,7 @@ const organizationSchema = new Schema({
             type: [Number],
             required: true
         }
-    },
-    
+    }   
 });
 
-module.exports = mongoose.model('Vehicle', vehicleSchema);
+module.exports = mongoose.model('Organization', organizationSchema);

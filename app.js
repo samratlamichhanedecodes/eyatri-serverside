@@ -9,8 +9,9 @@ const app = express();
 app.use(bodyParser.json());
 
 authRoutes = require("./routes/auth");
-vehicleControllerRoutes = require("./routes/vehicle");
-organizationControllerRoutes = require("./routes/organization");
+vehicleRoutes = require("./routes/vehicle");
+organizationRoutes = require("./routes/organization");
+userRoutes = require("./routes/user");
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,9 +23,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/vehicle', vehicleControllerRoutes);
+app.use('/vehicle', vehicleRoutes);
 
-app.use('/organization', organizationControllerRoutes);
+app.use('/organization', organizationRoutes);
+
+app.use('/user', userRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);
