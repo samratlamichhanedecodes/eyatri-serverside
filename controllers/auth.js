@@ -1,30 +1,32 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-
-
-exports.signup = async (req, res, next) => {
-    const {full_name, phone, is_owner} = req.body;
-    const newUser = new User({
-        full_name: full_name,
-        phone: phone,
-        is_owner: is_owner
-    });
-
-    await newUser.save();
-};
+const {validationResult} = require('express-validator');
 
 exports.login = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const error = new Error('Validation Failed.');
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error;
+    }
     const phone = req.body.phone;
     
     try{
-        const user = await User.findOne({phone: phone});
+        const existingUser = await User.findOne({ phone });
 
-        if(!user){
-            res.status(400).json('User not found!');
+        if(!existingUser){
+            const newUser = new User({
+                phone: phone,
+            });
+
+            await newUser.save();
+            res.status(201).json({message: "User created successfully", otp: newUser.otp});
+        }else{
+            res.status(200).json({message: "User already exists", otp: existingUser.otp});
         }
-
-        res.status(200).json({message: 'Login Successful', user: user});
     }catch(error){
+        console.error('Error:', error);
         next(error);
-    }
+    };
 };
