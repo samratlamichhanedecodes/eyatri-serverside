@@ -12,8 +12,7 @@ module.exports = (req, res, next) => {
     let decodedToken;
 
     try{
-        decodedToken = jwt.verify(token, 'MySecretKey');
-
+        decodedToken = jwt.verify(token, 'MySecretOrg');
     }catch(error){
         error.statusCode = 500;
         throw error;
@@ -25,6 +24,6 @@ module.exports = (req, res, next) => {
         throw error;
     }
 
-    req.userId = decodedToken.userId;
+    req.orgId = decodedToken.orgId;
     next();
 }

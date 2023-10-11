@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.post("/add-vehicle", organizationControllerRoutes.addVehicle);
 
-router.delete("/remove-vehicle", organizationControllerRoutes.removeVehicle);
+router.delete("/delete-vehicle", organizationControllerRoutes.removeVehicle);
+
+router.post("/add-route", organizationControllerRoutes.addRoute);
+
+router.delete("/delete-route", organizationControllerRoutes.removeRoute);
 
 module.exports = router;

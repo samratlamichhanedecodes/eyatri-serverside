@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const randomstring = require('randomstring');
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -9,21 +11,28 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     email: {
         type: String,
         // required: true,
         default: ''
     },
-    is_vehicle_owner: {
+    is_vehicle: {
         type: Boolean,
         // required: true,
         default: false
     },
     otp: {
         type: String,
-        default: '0000'
+        default: function () {
+            // Generate a random 4-digit OTP
+            return randomstring.generate({
+              length: 4,
+              charset: 'numeric',
+            });
+        }
     },
     home: {
         type: {
@@ -34,7 +43,7 @@ const userSchema = new Schema({
         coordinates: {
             type: [Number],
             required: true,
-            default: [27.671378, 85.338855]
+            default: [85.338855, 27.671378]
         }   
     },
     is_verified: {

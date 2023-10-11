@@ -9,6 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 authRoutes = require("./routes/auth");
+orgauthRoutes = require("./routes/orgauth");
 vehicleRoutes = require("./routes/vehicle");
 organizationRoutes = require("./routes/organization");
 userRoutes = require("./routes/user");
@@ -22,7 +23,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
+
+
 app.use('/auth', authRoutes);
+
+app.use('/orgauth', orgauthRoutes);
 
 app.use('/vehicle', vehicleRoutes);
 
@@ -45,7 +50,6 @@ mongoose
 .connect(
     `mongodb+srv://${username}:${password}@e-yatri.l4j3udy.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp`
 )
-// mongodb+srv://<username>:<password>@e-yatri.l4j3udy.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp
 .then(result =>{
     app.listen(3000);
 })

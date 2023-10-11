@@ -17,7 +17,8 @@ const stopSchema = new Schema({
             type: [Number],
             required: true
         }
-    }
+    },
+
 });
 
 module.exports = mongoose.model('Stop', stopSchema);
